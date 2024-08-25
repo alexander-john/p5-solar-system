@@ -5,7 +5,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   sun = new Body(100, createVector(0,0), createVector(0,0));
 
-  let r = random(sun.r, windowWidth/2);
+  let r = random(sun.r, min(windowWidth/2, windowHeight/2));
   let theta = random(TWO_PI);
   let planetPos = createVector(r*cos(theta), r*sin(theta));
   planet = new Body(25, planetPos, createVector(0,0));
