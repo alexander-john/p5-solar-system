@@ -2,7 +2,7 @@ let sun;
 let planet;
 
 function setup() {
-  createCanvas(700, 700);
+  createCanvas(windowWidth, windowHeight);
   sun = new Body(100, createVector(0,0), createVector(0,0));
 
   let r = random(sun.r, windowWidth/2);
