@@ -8,12 +8,13 @@ function setup() {
   let r = random(sun.r, min(windowWidth/2, windowHeight/2));
   let theta = random(TWO_PI);
   let planetPos = createVector(r*cos(theta), r*sin(theta));
-  planet = new Body(25, planetPos, createVector(0,0));
+  planet = new Body(25, planetPos, createVector(4,2));
 }
 
 function draw() {
   translate(width/2, height/2);
   background(100);
+  planet.update();
   planet.show();
   sun.show();
 }
@@ -28,5 +29,10 @@ function Body(_mass, _pos, _vel) {
     noStroke();
     fill(255);
     ellipse(this.pos.x, this.pos.y, this.r)
+  }
+
+  this.update = function() {
+    this.pos.x += this.vel.x;
+    this.pos.y += this.vel.y;
   }
 }
