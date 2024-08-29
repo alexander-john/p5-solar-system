@@ -1,5 +1,6 @@
 let sun;
 let planet;
+let G = 1;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -8,12 +9,18 @@ function setup() {
   let r = random(sun.r, min(windowWidth/2, windowHeight/2));
   let theta = random(TWO_PI);
   let planetPos = createVector(r*cos(theta), r*sin(theta));
-  planet = new Body(25, planetPos, createVector(4,2));
+
+  let planetVel = planetPos.copy();
+  planetVel.rotate(HALF_PI);
+  planetVel.setMag(sqrt(G * sun.mass/ planetPos.mag()));
+
+  planet = new Body(25, planetPos, planetVel);
 }
 
 function draw() {
   translate(width/2, height/2);
   background(100);
+  sun.attract(planet);
   planet.update();
   planet.show();
   sun.show();
@@ -34,5 +41,17 @@ function Body(_mass, _pos, _vel) {
   this.update = function() {
     this.pos.x += this.vel.x;
     this.pos.y += this.vel.y;
+  }
+
+  this.applyForce = function(f) {
+    this.vel.x += f.x / this.mass;
+    this.vel.y += f.y / this.mass;
+  }
+
+  this.attract = function(child) {
+    let r = dist(this.pos.x, this.pos.y, child.pos.x, child.pos.y);
+    let f = this.pos.copy().sub(child.pos);
+    f.setMag((G * this.mass * child.mass) / (r * r));
+    child.applyForce(f);
   }
 }
