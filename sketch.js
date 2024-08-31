@@ -1,6 +1,6 @@
 let sun;
 let planet;
-let G = 1;
+let G = 100;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
