@@ -1,28 +1,36 @@
 let sun;
-let planet;
+let planets = [];
 let G = 100;
+let numPlanets = 5;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   sun = new Body(100, createVector(0,0), createVector(0,0));
 
-  let r = random(sun.r, min(windowWidth/2, windowHeight/2));
-  let theta = random(TWO_PI);
-  let planetPos = createVector(r*cos(theta), r*sin(theta));
+  for (let i = 0; i < numPlanets; i++) {
+    let r = random(sun.r, min(windowWidth/2, windowHeight/2));
+    let theta = random(TWO_PI);
+    let planetPos = createVector(r*cos(theta), r*sin(theta));
 
-  let planetVel = planetPos.copy();
-  planetVel.rotate(HALF_PI);
-  planetVel.setMag(sqrt(G * sun.mass/ planetPos.mag()));
+    let planetVel = planetPos.copy();
+    planetVel.rotate(HALF_PI);
+    planetVel.setMag(sqrt(G * sun.mass/ planetPos.mag()));
 
-  planet = new Body(25, planetPos, planetVel);
+    planets.push(new Body(25, planetPos, planetVel));
+  }
+
+  
 }
 
 function draw() {
   translate(width/2, height/2);
   background(100);
-  sun.attract(planet);
-  planet.update();
-  planet.show();
+  for (let i = 0; i < planets.length; i++) {
+    sun.attract(planets[i]);
+    planets[i].update();
+    planets[i].show();
+  }
+
   sun.show();
 }
 
