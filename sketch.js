@@ -16,6 +16,11 @@ function setup() {
     let planetVel = planetPos.copy();
     planetVel.rotate(HALF_PI);
     planetVel.setMag(sqrt(G * sun.mass/ planetPos.mag()));
+
+    if (random(1) < 0.2) {
+      planetVel.mult(-1);
+    }
+    
     planetVel.mult(random(1 - destabilise, 1 + destabilise));
     planets.push(new Body(random(5, 30), planetPos, planetVel));
   }
