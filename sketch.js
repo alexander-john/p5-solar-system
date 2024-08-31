@@ -2,6 +2,7 @@ let sun;
 let planets = [];
 let G = 100;
 let numPlanets = 5;
+let destabilise = 0.5;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -15,8 +16,8 @@ function setup() {
     let planetVel = planetPos.copy();
     planetVel.rotate(HALF_PI);
     planetVel.setMag(sqrt(G * sun.mass/ planetPos.mag()));
-
-    planets.push(new Body(25, planetPos, planetVel));
+    planetVel.mult(random(1 - destabilise, 1 + destabilise));
+    planets.push(new Body(random(5, 30), planetPos, planetVel));
   }
 
   
