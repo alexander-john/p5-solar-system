@@ -2,7 +2,7 @@ let sun;
 let planets = [];
 let G = 100;
 let numPlanets = 5;
-let destabilise = 0.5;
+let destabilise = 0.2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -40,16 +40,25 @@ function Body(_mass, _pos, _vel) {
   this.pos = _pos;
   this.vel = _vel;
   this.r = this.mass;
+  this.path = [];
 
   this.show = function() {
     noStroke();
     fill(255);
     ellipse(this.pos.x, this.pos.y, this.r)
+    stroke(20);
+    for (let i = 0; i < this.path.length - 2; i++){
+      line(this.path[i].x, this.path[i].y, this.path[i+1].x, this.path[i+1].y)
+    }
   }
 
   this.update = function() {
     this.pos.x += this.vel.x;
     this.pos.y += this.vel.y;
+    this.path.push(this.pos.copy());
+    if (this.path.length > 100) {
+      this.path.splice(0,1);
+    }
   }
 
   this.applyForce = function(f) {
